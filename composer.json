@@ -11,6 +11,7 @@
     "source": "http://cgit.drupalcode.org/address_usps"
   },
   "require": {
+    "drupal/address": "^1.0",
     "vinceg/usps-php-api": "^1.0"
   }
 }
