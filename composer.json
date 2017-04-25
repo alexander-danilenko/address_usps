@@ -1,0 +1,16 @@
+{
+  "name": "drupal/address_usps",
+  "type": "drupal-module",
+  "description": "Provides functionality for validation of United States postal addresses using USPS service.",
+  "keywords": ["Drupal", "address", "USPS"],
+  "license": "GPL-2.0+",
+  "homepage": "https://www.drupal.org/project/address_usps",
+  "minimum-stability": "dev",
+  "support": {
+    "issues": "https://www.drupal.org/project/issues/address_usps",
+    "source": "http://cgit.drupalcode.org/address_usps"
+  },
+  "require": {
+    "vinceg/usps-php-api": "^1.0"
+  }
+}
