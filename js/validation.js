@@ -84,7 +84,7 @@
       // fields was filled.
       $.each(elements, function (key, value) {
         var element = $(value, context);
-        var inputFields = element.find('input, select')
+        var inputFields = element.find(':input')
           .not(Drupal.address_usps.element_ignore_fields);
 
         inputFields.on('change', function (e) {
