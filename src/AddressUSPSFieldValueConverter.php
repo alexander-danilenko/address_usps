@@ -52,10 +52,10 @@ class AddressUSPSFieldValueConverter {
    * @see AddressUSPSFieldValueConverter::convertToUspsAddress()
    */
   const ELEMENT_FIELDS_MAPPING = [
-    'organization'        => 'FirmName',
-    'address_line2'       => 'Apt',
-    'address_line1'       => 'Address',
-    'locality'            => 'City',
+    'organization' => 'FirmName',
+    'address_line2' => 'Apt',
+    'address_line1' => 'Address',
+    'locality' => 'City',
     'administrative_area' => 'State',
     // Zip processing implemented in method.
   ];
@@ -69,8 +69,8 @@ class AddressUSPSFieldValueConverter {
     'FirmName' => 'organization',
     'Address1' => 'address_line2',
     'Address2' => 'address_line1',
-    'City'     => 'locality',
-    'State'    => 'administrative_area',
+    'City' => 'locality',
+    'State' => 'administrative_area',
     // Zip processing implemented in method.
   ];
 
@@ -80,10 +80,10 @@ class AddressUSPSFieldValueConverter {
   const RESPONSE_ARRAY_MAPPING = [
     'Address1' => 'Apt',
     'Address2' => 'Address',
-    'City'     => 'City',
-    'State'    => 'State',
-    'Zip5'     => 'Zip5',
-    'Zip4'     => 'Zip4',
+    'City' => 'City',
+    'State' => 'State',
+    'Zip5' => 'Zip5',
+    'Zip4' => 'Zip4',
   ];
 
   /**
@@ -183,11 +183,13 @@ class AddressUSPSFieldValueConverter {
         case 10:
           $zips = explode('-', $this->addressElementValue['postal_code']);
           foreach ($zips as $zip) {
-            if (strlen($zip) == 4) {
-              $address->setZip4($zip);
-            }
-            elseif (strlen($zip) == 5) {
-              $address->setZip5($zip);
+            switch (strlen($zip)) {
+              case 4:
+                $address->setZip4($zip);
+                break;
+              case 5:
+                $address->setZip5($zip);
+                break;
             }
           }
           break;
@@ -224,7 +226,14 @@ class AddressUSPSFieldValueConverter {
     }
 
     // Fill postal code depends on it's length.
-    $address_element_value['postal_code'] = $address_array['Zip5'] . '-' . $address_array['Zip4'];
+    $postal_code = array_filter([
+      $address_array['Zip5'],
+      $address_array['Zip4'],
+    ], function ($value) {
+      return $value;
+    });
+
+    $address_element_value['postal_code'] = implode('-', $postal_code);
 
     $this->addressElementValue = $address_element_value;
 

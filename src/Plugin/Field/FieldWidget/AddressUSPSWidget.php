@@ -47,20 +47,14 @@ class AddressUSPSWidget extends AddressDefaultWidget {
       ],
     ];
 
-    // Limit widget's default country to real selected field's countries.
-    $all_countries_list = $this->countryRepository->getList();
     $field_countries = $this->getFieldSetting('available_countries');
 
-    if (!isset($field_countries['US'])) {
+    if (!empty($field_countries && !isset($field_countries['US']))) {
       $form['message']['#message_list']['error'][] = AddressUSPSHelper::US_ADDRESS_US_COUNTRY_NOT_SELECTED;
     }
 
     $form['default_country']['#weight'] = 10;
     $form['default_country']['#default_value'] = $this->getSetting('default_country');
-    $form['default_country']['#options'] = [];
-    foreach ($field_countries as $country_code) {
-      $form['default_country']['#options'][$country_code] = $all_countries_list[$country_code];
-    }
 
     $form['popup_validation'] = [
       '#type'          => 'checkbox',

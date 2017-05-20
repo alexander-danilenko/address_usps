@@ -80,12 +80,12 @@ class USPSSuggestConfirmCommand implements CommandInterface {
       'message' => [
         '#markup' => t('Do you want to convert address to USPS suggested format?'),
       ],
-      'table'   => [
-        '#type'   => 'table',
+      'table' => [
+        '#type' => 'table',
         '#header' => [t('From'), t('To')],
-        '1'       => [
+        '1' => [
           'from' => $from,
-          'to'   => $to,
+          'to' => $to,
         ],
       ],
     ];
@@ -101,12 +101,12 @@ class USPSSuggestConfirmCommand implements CommandInterface {
    */
   public function render() {
     return [
-      'command'              => 'addressUSPSSuggestConfirm',
-      'selector'             => $this->elementSelector,
-      'original_data'        => $this->originalData,
-      'suggested_data'       => $this->suggestedData,
-      'dialog_title'         => $this->dialogTitle,
-      'dialog_content'       => \Drupal::service('renderer')->render($this->dialogContent),
+      'command' => 'addressUSPSSuggestConfirm',
+      'selector' => $this->elementSelector,
+      'original_data' => $this->originalData,
+      'suggested_data' => $this->suggestedData,
+      'dialog_title' => $this->dialogTitle,
+      'dialog_content' => \Drupal::service('renderer')->render($this->dialogContent),
       'replace_required' => $this->replaceRequired,
     ];
   }

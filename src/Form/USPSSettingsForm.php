@@ -37,15 +37,15 @@ class USPSSettingsForm extends ConfigFormBase {
     $config = $this->config('address_usps.uspssettings');
 
     $form[AddressUSPSHelper::CONFIG_USPS_USERNAME] = [
-      '#type'          => 'textfield',
-      '#title'         => $this->t('Service username'),
-      '#description'   => $this->t('Enter username that you got in email after registration in USPS Web Tools API portal. If you have no Web Tools API username, you can get it here: <a href=":url" target="_blank">Registration for USPS Web Tools</a>', [
+      '#type' => 'textfield',
+      '#title' => $this->t('Service username'),
+      '#description' => $this->t('Enter username that you got in email after registration in USPS Web Tools API portal. If you have no Web Tools API username, you can get it here: <a href=":url" target="_blank">Registration for USPS Web Tools</a>', [
         ':url' => Url::fromUri('https://www.usps.com/business/web-tools-apis/web-tools-registration.htm')->toString(),
       ]),
-      '#maxlength'     => 64,
-      '#size'          => 64,
+      '#maxlength' => 64,
+      '#size' => 64,
       '#default_value' => $config->get(AddressUSPSHelper::CONFIG_USPS_USERNAME),
-      '#required'      => TRUE,
+      '#required' => TRUE,
     ];
 
     return parent::buildForm($form, $form_state);

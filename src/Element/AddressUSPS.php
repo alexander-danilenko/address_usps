@@ -74,21 +74,21 @@ class AddressUSPS extends Address {
        * @see Drupal.behaviors.address_usps
        */
       $element['convert'] = [
-        '#type'       => 'button',
-        '#value'      => 'Convert',
+        '#type' => 'button',
+        '#value' => 'Convert',
         '#attributes' => [
           'class' => [
             'address-usps-convert-button',
             'visually-hidden',
           ],
-          'name'  => $element['#name'] . '[convert]',
+          'name' => $element['#name'] . '[convert]',
         ],
-        '#name'       => $element['#name'] . '[convert]',
-        '#ajax'       => [
+        '#name' => $element['#name'] . '[convert]',
+        '#ajax' => [
           'callback' => [get_called_class(), 'ajaxSuggest'],
-          'event'    => 'click',
+          'event' => 'click',
           'progress' => [
-            'type'    => 'throbber',
+            'type' => 'throbber',
             'message' => t('Searching in USPS database...'),
           ],
         ],
@@ -99,8 +99,7 @@ class AddressUSPS extends Address {
       $element = static::addressElements($element, $element['#value']);
     }
 
-    \Drupal::moduleHandler()
-      ->alter(AddressUSPSHelper::HOOK_ELEMENT_ALTER, $element, $form_state, $complete_form);
+    \Drupal::moduleHandler()->alter(AddressUSPSHelper::HOOK_ELEMENT_ALTER, $element, $form_state, $complete_form);
 
     return $element;
   }
@@ -177,11 +176,11 @@ class AddressUSPS extends Address {
     $suggested_values = $suggester->suggestAsElementValues();
 
     $data_for_altering = [
-      'response'         => &$response,
-      'element'          => &$address_element,
+      'response' => &$response,
+      'element' => &$address_element,
       'suggested_values' => &$suggested_values,
-      'form_state'       => &$form_state,
-      'request'          => &$request,
+      'form_state' => &$form_state,
+      'request' => &$request,
     ];
 
     /*
@@ -193,7 +192,7 @@ class AddressUSPS extends Address {
     if (!empty($suggested_values['error'])) {
       // Just recreate element with error message.
       $address_element['error_messages'] = [
-        '#theme'        => 'status_messages',
+        '#theme' => 'status_messages',
         '#message_list' => [
           'error' => [AddressUSPSHelper::ADDRESS_NOT_FOUND_MESSAGE],
         ],

@@ -106,7 +106,7 @@ class AddressUSPSProposer {
     if ($verify->isError()) {
       return [
         'error' => [
-          'code'    => $verify->getErrorCode(),
+          'code' => $verify->getErrorCode(),
           'message' => $verify->getErrorMessage(),
         ],
       ];

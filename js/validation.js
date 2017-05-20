@@ -1,7 +1,7 @@
 (function ($, Drupal) {
 
   Drupal.address_usps = (Drupal.address_usps || {});
-  Drupal.address_usps.element_ignore_fields = '[type="submit"], [name*="given_name"], [name*="family_name"], [name*="organization"]';
+  Drupal.address_usps.element_ignore_fields = '[type="submit"], [name*="given_name"], [name*="family_name"], [name*="organization"], .usps-ignore';
 
   /**
    * Checks if single address element have all filled fields.
@@ -11,7 +11,7 @@
    * @returns {boolean}
    */
   Drupal.address_usps.elementIsValid = function ($element) {
-    var inputFields = $element.find('input, select')
+    var inputFields = $element.find(':input')
       .not(Drupal.address_usps.element_ignore_fields);
     var validFieldsCount = 0;
     $.each(inputFields, function (key, value) {
@@ -23,11 +23,11 @@
   };
 
   Drupal.address_usps.fillElementWithValues = function ($element, values) {
-    $element.find('input, select').removeClass('error');
+    $element.find(':input').removeClass('error');
     $element.find('.messages.messages--error').remove();
 
     // Reset values on element's form excluding ignored fields.
-    $element.find('input, select')
+    $element.find(':input')
       .not(Drupal.address_usps.element_ignore_fields)
       .val('');
 
@@ -84,7 +84,7 @@
       // fields was filled.
       $.each(elements, function (key, value) {
         var element = $(value, context);
-        var inputFields = element.find('input')
+        var inputFields = element.find('input, select')
           .not(Drupal.address_usps.element_ignore_fields);
 
         inputFields.on('change', function (e) {

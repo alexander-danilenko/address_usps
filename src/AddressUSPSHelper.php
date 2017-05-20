@@ -24,25 +24,28 @@ final class AddressUSPSHelper {
    *
    * @param array $element_value
    *   Element value.
+   *
+   * @return array
+   *   Render array with '#type' => 'address_plain'
    */
   public static function renderAddressElementByValue(array $element_value) {
     $full_country_list = \Drupal::service('address.country_repository')
       ->getList();
 
     return [
-      '#theme'               => 'address_plain',
-      '#given_name'          => isset($element_value['given_name']) ? $element_value['given_name'] : '',
-      '#additional_name'     => isset($element_value['additional_name']) ? $element_value['additional_name'] : '',
-      '#family_name'         => isset($element_value['family_name']) ? $element_value['family_name'] : '',
-      '#organization'        => isset($element_value['organization']) ? $element_value['organization'] : '',
-      '#address_line1'       => isset($element_value['address_line1']) ? $element_value['address_line1'] : '',
-      '#address_line2'       => isset($element_value['address_line2']) ? $element_value['address_line2'] : '',
-      '#postal_code'         => isset($element_value['postal_code']) ? $element_value['postal_code'] : '',
-      '#sorting_code'        => isset($element_value['sorting_code']) ? $element_value['sorting_code'] : '',
+      '#theme' => 'address_plain',
+      '#given_name' => isset($element_value['given_name']) ? $element_value['given_name'] : '',
+      '#additional_name' => isset($element_value['additional_name']) ? $element_value['additional_name'] : '',
+      '#family_name' => isset($element_value['family_name']) ? $element_value['family_name'] : '',
+      '#organization' => isset($element_value['organization']) ? $element_value['organization'] : '',
+      '#address_line1' => isset($element_value['address_line1']) ? $element_value['address_line1'] : '',
+      '#address_line2' => isset($element_value['address_line2']) ? $element_value['address_line2'] : '',
+      '#postal_code' => isset($element_value['postal_code']) ? $element_value['postal_code'] : '',
+      '#sorting_code' => isset($element_value['sorting_code']) ? $element_value['sorting_code'] : '',
       '#administrative_area' => isset($element_value['administrative_area']) ? $element_value['administrative_area'] : '',
-      '#locality'            => isset($element_value['locality']) ? $element_value['locality'] : '',
-      '#dependent_locality'  => isset($element_value['dependent_locality']) ? $element_value['dependent_locality'] : '',
-      '#country'             => [
+      '#locality' => isset($element_value['locality']) ? $element_value['locality'] : '',
+      '#dependent_locality' => isset($element_value['dependent_locality']) ? $element_value['dependent_locality'] : '',
+      '#country' => [
         'code' => 'US',
         'name' => $full_country_list['US'],
       ],

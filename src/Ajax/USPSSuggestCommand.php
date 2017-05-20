@@ -44,8 +44,8 @@ class USPSSuggestCommand implements CommandInterface {
    */
   public function render() {
     return [
-      'command'        => 'addressUSPSSuggest',
-      'selector'       => $this->selector,
+      'command' => 'addressUSPSSuggest',
+      'selector' => $this->selector,
       'suggested_data' => $this->suggestedData,
     ];
   }
