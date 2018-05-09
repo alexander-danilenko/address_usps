@@ -53,7 +53,7 @@
     if (response.replace_required === true) {
       var modal = $("#drupal-modal");
       modal.html(response.dialog_content);
-      modal.dialog({
+      Drupal.dialog(modal, {
         modal: true,
         resizable: false,
         width: "30%",
@@ -69,7 +69,7 @@
             $(this).dialog("close");
           }
         }
-      }).show();
+      }).showModal();
     }
   };
 
