@@ -1,0 +1,36 @@
+<?php
+
+/**
+ * @file
+ * Address USPS module install hooks.
+ */
+
+use Drupal\Core\Url;
+
+/**
+ * Implements hook_requirements().
+ */
+function address_usps_requirements($phase) {
+  $requirements = [];
+
+  if ($phase == 'runtime') {
+    $requirements['address_usps_username'] = [
+      'title' => t('Address USPS'),
+    ];
+
+    $config = \Drupal::config('address_usps.settings');
+
+    if (empty($config->get('api_username'))) {
+      $configuration_url = Url::fromRoute('address_usps.settings');
+      $requirements['address_usps_username']['value'] = t('USPS API Username have not been configured.');
+      $requirements['address_usps_username']['description'] = t('It appears USPS credentials have not been configured for the site. Check Address USPS module <a href=":url">configuring page</a> and set a service <em>API Username</em>.', [':url' => $configuration_url->toString()]);
+      $requirements['address_usps_username']['severity'] = REQUIREMENT_ERROR;
+    }
+    else {
+      $requirements['address_usps_username']['value'] = t('USPS API Username is set.');
+      $requirements['address_usps_username']['severity'] = REQUIREMENT_OK;
+    }
+  }
+
+  return $requirements;
+}
