@@ -25,15 +25,6 @@ class Convert {
    */
   protected $verifier;
 
-  const CONVERT_MAPPING = [
-    'organization' => 'FirmName',
-    'address_line1' => 'Address1',
-    'address_line2' => 'Address2',
-    'locality' => 'City',
-    'administrative_area' => 'State',
-    // Zip code processed separately based on its length.
-  ];
-
   /**
    * Constructs a Verify object.
    *
@@ -65,14 +56,16 @@ class Convert {
     // Create address object compatible with USPS library.
     $address_object = new Address();
 
-    // FIll address object.
-    foreach (static::CONVERT_MAPPING as $field_property => $api_parameter) {
-      $address_object->setField($api_parameter, $address[$field_property]);
-    }
-
-    // Add empty zip codes as they are required to be in request even empty.
-    $address_object->setField('Zip5', '');
-    $address_object->setField('Zip4', '');
+    // IMPORTANT! Keep items ordering as by some unknown reason XML elements
+    // ordering is important for USPS items and may lead to false errors.
+    $address_object
+      ->setApt($address['address_line2'])
+      ->setAddress($address['address_line1'])
+      ->setCity($address['locality'])
+      ->setState($address['administrative_area'])
+      // Add empty zip codes as they are required to be in request even empty.
+      ->setZip5('')
+      ->setZip4('');
 
     // Fill zip code according to its length.
     $zip_length = strlen($address['postal_code']);
@@ -93,15 +86,18 @@ class Convert {
     }
 
     // Collect new address data in field value format.
-    $new_address = $address;
-    // Fill back data from response.
-    foreach (self::CONVERT_MAPPING as $field_property => $api_parameter) {
-      $new_address[$field_property] = $verified_address[$api_parameter] ?? $new_address[$field_property];
-    }
-    $new_address['postal_code'] = implode('-', array_filter([
-      $verified_address['Zip5'] ?? NULL,
-      $verified_address['Zip4'] ?? NULL,
-    ]));
+    $new_address = array_merge($address, [
+      'locality' => $verified_address['City'],
+      'administrative_area' => $verified_address['State'],
+      // USPS merges address lines to single line.
+      'address_line1' => $verified_address['Address2'] ?? NULL,
+      // Leave 2nd address line blank.
+      'address_line2' => '',
+      'postal_code' => implode('-', array_filter([
+        $verified_address['Zip5'] ?? NULL,
+        $verified_address['Zip4'] ?? NULL,
+      ])),
+    ]);
 
     return $new_address;
   }
