@@ -34,3 +34,21 @@ function address_usps_requirements($phase) {
 
   return $requirements;
 }
+
+/**
+ * Implements hook_update_N().
+ */
+function address_usps_update_8200() {
+  $config_factory = \Drupal::configFactory();
+
+  $legacy_config = $config_factory->getEditable('address_usps.uspssettings');
+  $config = $config_factory->getEditable('address_usps.settings');
+
+  // Fill new config with legacy values.
+  $config
+    ->set('api_username', $legacy_config->get('service_username'))
+    ->save();
+
+  // Delete old config.
+  $legacy_config->delete();
+}
