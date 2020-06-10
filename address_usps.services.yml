@@ -1,0 +1,4 @@
+services:
+  address_usps.convert:
+    class: Drupal\address_usps\Convert
+    arguments: ['@config.factory']

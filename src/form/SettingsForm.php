@@ -2,24 +2,21 @@
 
 namespace Drupal\address_usps\Form;
 
-use Drupal\address_usps\AddressUSPSHelper;
 use Drupal\Core\Form\ConfigFormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Url;
 
 /**
- * Class USPSSettingsForm.
- *
- * @package Drupal\address_usps\Form
+ * Module settings form.
  */
-class USPSSettingsForm extends ConfigFormBase {
+class SettingsForm extends ConfigFormBase {
 
   /**
    * {@inheritdoc}
    */
   protected function getEditableConfigNames() {
     return [
-      'address_usps.uspssettings',
+      'address_usps.settings',
     ];
   }
 
@@ -27,24 +24,24 @@ class USPSSettingsForm extends ConfigFormBase {
    * {@inheritdoc}
    */
   public function getFormId() {
-    return 'usps_settings_form';
+    return 'address_usps_settings_form';
   }
 
   /**
    * {@inheritdoc}
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
-    $config = $this->config('address_usps.uspssettings');
+    $config = $this->config('address_usps.settings');
 
-    $form[AddressUSPSHelper::CONFIG_USPS_USERNAME] = [
+    $form['api_username'] = [
       '#type' => 'textfield',
-      '#title' => $this->t('Service username'),
-      '#description' => $this->t('Enter username that you got in email after registration in USPS Web Tools API portal. If you have no Web Tools API username, you can get it here: <a href=":url" target="_blank">Registration for USPS Web Tools</a>', [
+      '#title' => $this->t('API username'),
+      '#description' => $this->t('USPS Web Tools API username. It can be retrieved <a href=":url" target="_blank">here</a>', [
         ':url' => Url::fromUri('https://www.usps.com/business/web-tools-apis/web-tools-registration.htm')->toString(),
       ]),
       '#maxlength' => 64,
       '#size' => 64,
-      '#default_value' => $config->get(AddressUSPSHelper::CONFIG_USPS_USERNAME),
+      '#default_value' => $config->get('api_username'),
       '#required' => TRUE,
     ];
 
@@ -57,8 +54,8 @@ class USPSSettingsForm extends ConfigFormBase {
   public function submitForm(array &$form, FormStateInterface $form_state) {
     parent::submitForm($form, $form_state);
 
-    $this->config('address_usps.uspssettings')
-      ->set(AddressUSPSHelper::CONFIG_USPS_USERNAME, $form_state->getValue(AddressUSPSHelper::CONFIG_USPS_USERNAME))
+    $this->config('address_usps.settings')
+      ->set('api_username', $form_state->getValue('api_username'))
       ->save();
   }
 
