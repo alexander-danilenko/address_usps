@@ -1,0 +1,6 @@
+address_usps.settings:
+  type: config_object
+  mapping:
+    api_username:
+      type: string
+      label: 'USPS Web Tools API username'
